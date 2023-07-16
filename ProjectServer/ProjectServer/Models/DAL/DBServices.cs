@@ -5,14 +5,189 @@ using System.Web;
 using System.Data.SqlClient;
 using System.Data;
 using System.Text;
+using WebApplication1.Models.WebApplication1.Models;
+
 namespace ProjectServer.Models.DAL
 {
-    public class DBServices
+    public class DBservices
     {
-        public DBServices()//Check
+        public DBservices()
         {
 
         }
+
+        //------User Services------//
+
+        public bool addSongToFavorite(int idUser, int idSong)  //פונקציה שלא מחזירה ערך
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@userid", idUser);
+            paramDic.Add("@songid", idSong);
+
+
+            cmd = CreateCommandWithStoredProcedure("InsertSongToFavorites", con, paramDic);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+                return numEffected == 1;
+            }
+
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+        public bool deleteSongToFavorite(int idUser, int idSong)  //פונקציה שלא מחזירה ערך
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@userid", idUser);
+            paramDic.Add("@songid", idSong);
+
+
+            cmd = CreateCommandWithStoredProcedure("DeleteSongToFavorites", con, paramDic);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id
+                return numEffected == 1;
+            }
+
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //------Song Services------//
+        public List<Song> getAllSongs()
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+
+            cmd = CreateCommandWithStoredProcedure("GetAllSongs", con, null);             // create the command
+
+
+            List<Song> SongList = new List<Song>();
+
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    Song s = new Song();
+                    s.Id = Convert.ToInt32(dataReader["id"]);
+                    s.Artist = dataReader["artist"].ToString();
+                    s.SongName = dataReader["song"].ToString();
+                    s.Lyrics = dataReader["text"].ToString();
+                    SongList.Add(s);
+                }
+                return SongList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+
+
+
 
         public SqlConnection connect(String conString)
         {
@@ -25,7 +200,6 @@ namespace ProjectServer.Models.DAL
             con.Open();
             return con;
         }
-
         private SqlCommand CreateCommandWithStoredProcedure(String spName, SqlConnection con, Dictionary<string, object> paramDic)
         {
 
@@ -49,7 +223,5 @@ namespace ProjectServer.Models.DAL
 
             return cmd;
         }
-
-
     }
 }
