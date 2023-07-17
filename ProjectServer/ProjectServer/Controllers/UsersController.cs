@@ -22,7 +22,7 @@ namespace ProjectServer.Controllers
         [Route("deleteSongFromFavorite")]
         public bool deleteSongFromFavorite(int idUser, int idSong)
         {
-            return Models.User.deleteSongFromFavorite(idUser, idSong);
+            return Models.User.deleteSongToFavorite(idUser, idSong);
         }
 
 
