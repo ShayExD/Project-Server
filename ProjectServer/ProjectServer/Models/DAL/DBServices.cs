@@ -237,9 +237,9 @@ using ProjectServer.Models;
             }
 
             Dictionary<string, object> paramDic = new Dictionary<string, object>();
-            paramDic.Add("@song", songName);
+            paramDic.Add("@SongName", songName);
 
-            cmd = CreateCommandWithStoredProcedure("GetSongByArtist", con, paramDic);            // create the command
+            cmd = CreateCommandWithStoredProcedure("GetSongByName", con, paramDic);            // create the command
 
 
             List<Song> SongList = new List<Song>();

@@ -25,10 +25,10 @@
                 return dbs.getAllSongs();
             }
 
-        public static List<Song> getSongsByArtist(string songName)
+        public static List<Song> getSongsByArtist(string artist)
         {
             DBservices dbs = new DBservices();
-            return dbs.getSongsByArtist(songName);
+            return dbs.getSongsByArtist(artist);
         }
 
         public static List<Song> getSongsBySongName(string songName)
