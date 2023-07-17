@@ -25,17 +25,23 @@
                 return dbs.getAllSongs();
             }
 
-            //public static List<Song> getNotAllUserSongs(int id)
-            //{
-            //    DBservices dbs = new DBservices();
-            //    return dbs.getNotUserSongs(id);
-            //}
-
-            //public static bool addSong(int idUser, int idSong)
-            //{
-            //    DBservices dbs = new DBservices();
-            //    return dbs.addSong(idUser, idSong);
-            //}
+        public static List<Song> getSongsByArtist(string songName)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getSongsByArtist(songName);
         }
+
+        public static List<Song> getSongsBySongName(string songName)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getSongsBySongName(songName);
+        }
+
+        //public static bool addSong(int idUser, int idSong)
+        //{
+        //    DBservices dbs = new DBservices();
+        //    return dbs.addSong(idUser, idSong);
+        //}
+    }
     }
 
