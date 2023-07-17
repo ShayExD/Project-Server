@@ -18,7 +18,9 @@ namespace ProjectServer.Controllers
             return Models.User.addSongToFavorite(idUser, idSong);  
         }
 
-        public bool deleteSongToFavorite(int idUser, int idSong)
+        [HttpGet]
+        [Route("deleteSongFromFavorite")]
+        public bool deleteSongFromFavorite(int idUser, int idSong)
         {
             return Models.User.deleteSongToFavorite(idUser, idSong);
         }

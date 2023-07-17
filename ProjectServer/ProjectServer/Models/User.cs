@@ -1,4 +1,6 @@
-﻿namespace ProjectServer.Models
+﻿using ProjectServer.Models.DAL;
+
+namespace ProjectServer.Models
 {
     public class User
     {
@@ -21,19 +23,22 @@
         public string Email { get; set; }
         public string Password { get; set; }
         public string Username { get; set; }
-        public string Registrationdate { get; set; }  
+        public string Registrationdate { get; set; }
 
-            //public static List<User> getNotAllUserUsers(int id)
-            //{
-            //    DBservices dbs = new DBservices();
-            //    return dbs.getNotUserUsers(id);
-            //}
 
-            //public static bool addUser(int idUser, int idUser)
-            //{
-            //    DBservices dbs = new DBservices();
-            //    return dbs.addUser(idUser, idUser);
-            //}
+
+        public static bool addSongToFavorite(int idUser, int idSong)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.addSongToFavorite(idUser, idSong);
         }
+
+        public static bool deleteSongFromFavorite(int idUser, int idSong)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.deleteSongFromFavorite(idUser, idSong);
+        }
+
+    }
     }
 

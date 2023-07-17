@@ -17,7 +17,19 @@ namespace ProjectServer.Controllers
             return Song.getAllSongs();
         }
 
+        [HttpGet]
+        [Route("getSongsByArtist")]
+        public List<Song> getSongsByArtist(string artist)
+        {
+            return Song.getSongsByArtist(artist);
+        }
 
+        [HttpGet]
+        [Route("getSongsBySongName")]
+        public List<Song> getSongsBySongName(string songName)
+        {
+            return Song.getSongsBySongName(songName);
+        }
 
 
 

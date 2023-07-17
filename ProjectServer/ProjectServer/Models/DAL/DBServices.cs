@@ -65,7 +65,7 @@ using ProjectServer.Models;
 
         }
 
-        public bool deleteSongToFavorite(int idUser, int idSong)  //פונקציה שלא מחזירה ערך
+        public bool deleteSongFromFavorite(int idUser, int idSong)  //פונקציה שלא מחזירה ערך
         {
 
             SqlConnection con;
@@ -131,6 +131,115 @@ using ProjectServer.Models;
 
 
             cmd = CreateCommandWithStoredProcedure("GetAllSongs", con, null);             // create the command
+
+
+            List<Song> SongList = new List<Song>();
+
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    Song s = new Song();
+                    s.Id = Convert.ToInt32(dataReader["id"]);
+                    s.Artist = dataReader["artist"].ToString();
+                    s.SongName = dataReader["song"].ToString();
+                    s.Lyrics = dataReader["text"].ToString();
+                    SongList.Add(s);
+                }
+                return SongList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+        public List<Song> getSongsByArtist(string artist)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@artist", artist);
+
+            cmd = CreateCommandWithStoredProcedure("GetSongByArtist", con, paramDic);            // create the command
+
+
+            List<Song> SongList = new List<Song>();
+
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    Song s = new Song();
+                    s.Id = Convert.ToInt32(dataReader["id"]);
+                    s.Artist = dataReader["artist"].ToString();
+                    s.SongName = dataReader["song"].ToString();
+                    s.Lyrics = dataReader["text"].ToString();
+                    SongList.Add(s);
+                }
+                return SongList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+        public List<Song> getSongsBySongName(string songName)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@song", songName);
+
+            cmd = CreateCommandWithStoredProcedure("GetSongByArtist", con, paramDic);            // create the command
 
 
             List<Song> SongList = new List<Song>();
