@@ -15,12 +15,12 @@ namespace ProjectServer.Controllers
         [Route("addSongToFavorite")]
         public bool addSongToFavorite(int idUser, int idSong)
         {
-            return Models.ProjectServer.Models.User.addSongToFavorite(idUser, idSong);  
+            return Models.User.addSongToFavorite(idUser, idSong);  
         }
 
         public bool deleteSongToFavorite(int idUser, int idSong)
         {
-            return Models.ProjectServer.Models.User.deleteSongToFavorite(idUser, idSong);
+            return Models.User.deleteSongToFavorite(idUser, idSong);
         }
 
 
