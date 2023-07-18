@@ -37,6 +37,12 @@
             return dbs.getSongsBySongName(songName);
         }
 
+        public static List<Song> getSongsByLyrics(string lyrics)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getSongsByLyrics(lyrics);
+        }
+
         //public static bool addSong(int idUser, int idSong)
         //{
         //    DBservices dbs = new DBservices();

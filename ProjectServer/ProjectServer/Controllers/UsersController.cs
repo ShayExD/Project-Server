@@ -10,22 +10,36 @@ namespace ProjectServer.Controllers
     public class UsersController : ControllerBase
     {
 
-
-        [HttpGet]
-        [Route("addSongToFavorite")]
-        public bool addSongToFavorite(int idUser, int idSong)
+        [HttpPost("SignUp")]
+        public bool SignUp([FromBody] User user)
         {
-            return Models.User.addSongToFavorite(idUser, idSong);  
+            return user.Registration();
         }
 
-        [HttpGet]
-        [Route("deleteSongFromFavorite")]
+        [HttpPost("logIn")]
+        public User LogIn(string email, [FromBody] string password)
+        {
+            return Models.User.LogIn(email, password);//אם יחזור יחזיר יוזר 
+        }
+
+        [HttpPost("addToFavorite")]
+        public bool addSongToFavorite(int idUser, int idSong)
+        {
+            return Models.User.addSongToFavorite(idUser,idSong);
+        }
+
+        [HttpPost("deleteSongFromFavorite")]
         public bool deleteSongFromFavorite(int idUser, int idSong)
         {
             return Models.User.deleteSongFromFavorite(idUser, idSong);
         }
 
-
+        [HttpGet]
+        [Route("userFavoriteSongs")]
+        public List<Song> userFavoriteSongs(int idUser)
+        {
+            return Models.User.userFavoriteSongs(idUser);
+        }
 
         // GET: api/<UsersController>
         [HttpGet]
@@ -42,19 +56,7 @@ namespace ProjectServer.Controllers
         }
 
         // POST api/<UsersController>
-        [HttpPost]
-        [Route("SignUp")]
 
-        public bool SignUp([FromBody] User user)
-        {
-            return user.Registration();
-        }
-
-        [HttpPost("logIn")]
-        public User LogIn(string email, [FromBody] string password)
-        {
-            return Models.User.LogIn(email, password);//אם יחזור יחזיר יוזר 
-        }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]

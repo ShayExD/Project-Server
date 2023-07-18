@@ -144,8 +144,8 @@ using ProjectServer.Models;
             }
 
             Dictionary<string, object> paramDic = new Dictionary<string, object>();
-            paramDic.Add("@userid", idUser);
-            paramDic.Add("@songid", idSong);
+            paramDic.Add("@idUser", idUser);
+            paramDic.Add("@idSong", idSong);
 
 
             cmd = CreateCommandWithStoredProcedure("InsertSongToFavorites", con, paramDic);             // create the command
@@ -191,11 +191,11 @@ using ProjectServer.Models;
             }
 
             Dictionary<string, object> paramDic = new Dictionary<string, object>();
-            paramDic.Add("@userid", idUser);
-            paramDic.Add("@songid", idSong);
+            paramDic.Add("@idUser", idUser);
+            paramDic.Add("@idSong", idSong);
 
 
-            cmd = CreateCommandWithStoredProcedure("DeleteSongToFavorites", con, paramDic);             // create the command
+            cmd = CreateCommandWithStoredProcedure("DeleteSongFromFavorites", con, paramDic);             // create the command
 
             try
             {
@@ -221,7 +221,60 @@ using ProjectServer.Models;
 
         }
 
+        public List<Song> userFavoriteSongs(int idUser)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
 
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@idUser", idUser);
+
+            cmd = CreateCommandWithStoredProcedure("UserFavoritesSongs", con, paramDic);            // create the command
+
+
+            List<Song> SongList = new List<Song>();
+
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    Song s = new Song();
+                    s.Id = Convert.ToInt32(dataReader["id"]);
+                    s.Artist = dataReader["artist"].ToString();
+                    s.SongName = dataReader["song"].ToString();
+                    s.Lyrics = dataReader["text"].ToString();
+                    SongList.Add(s);
+                }
+                return SongList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
         //------Song Services------//
         public List<Song> getAllSongs()
         {
@@ -329,7 +382,6 @@ using ProjectServer.Models;
             }
 
         }
-
         public List<Song> getSongsBySongName(string songName)
         {
             SqlConnection con;
@@ -384,6 +436,75 @@ using ProjectServer.Models;
             }
 
         }
+        public List<Song> getSongsByLyrics(string lyrics)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@songText", lyrics);
+
+            cmd = CreateCommandWithStoredProcedure("GetSongByText", con, paramDic);            // create the command
+
+
+            List<Song> SongList = new List<Song>();
+
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    Song s = new Song();
+                    s.Id = Convert.ToInt32(dataReader["id"]);
+                    s.Artist = dataReader["artist"].ToString();
+                    s.SongName = dataReader["song"].ToString();
+                    s.Lyrics = dataReader["text"].ToString();
+                    SongList.Add(s);
+                }
+                return SongList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public SqlConnection connect(String conString)
         {
 
