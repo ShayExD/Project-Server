@@ -17,6 +17,115 @@ using ProjectServer.Models;
         }
 
         //------User Services------//
+        public bool Insert(User user)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@username", user.Username);
+            paramDic.Add("@email", user.Email);
+            paramDic.Add("@password", user.Password);
+
+
+            cmd = CreateCommandWithStoredProcedure("InsertUser", con, paramDic);             // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                /*int numEffected = Convert.ToInt32(cmd.ExecuteScalar());*/ // returning the id
+                return numEffected == 1;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+        public User LogIn(string email, string password)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@email", email);
+            paramDic.Add("@password", password);
+
+
+            cmd = CreateCommandWithStoredProcedure("LoginUser", con, paramDic);             // create the command
+
+            User user = new User();
+
+
+            try
+            {
+
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    user.Id = Convert.ToInt32(dataReader["id"]);
+                    user.Email = dataReader["email"].ToString();
+                    user.Password = dataReader["password"].ToString();
+                    user.Username = dataReader["username"].ToString();
+                    user.Registrationdate = dataReader["registrationdate"].ToString();
+
+                }
+                if (user.Email == null)
+                {
+                    throw new Exception("User Doesnt exits");
+                }
+                return user;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
 
         public bool addSongToFavorite(int idUser, int idSong)  //פונקציה שלא מחזירה ערך
         {

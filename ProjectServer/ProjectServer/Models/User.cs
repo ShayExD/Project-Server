@@ -39,6 +39,20 @@ namespace ProjectServer.Models
             return dbs.deleteSongFromFavorite(idUser, idSong);
         }
 
+        public bool Registration()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.Insert(this);
+        }
+
+        public static User LogIn(string email, string password)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.LogIn(email, password);
+
+
+        }
+
     }
-    }
+}
 

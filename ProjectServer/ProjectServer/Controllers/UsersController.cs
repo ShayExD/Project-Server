@@ -43,8 +43,17 @@ namespace ProjectServer.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Route("SignUp")]
+
+        public bool SignUp([FromBody] User user)
         {
+            return user.Registration();
+        }
+
+        [HttpPost("logIn")]
+        public User LogIn(string email, [FromBody] string password)
+        {
+            return Models.User.LogIn(email, password);//אם יחזור יחזיר יוזר 
         }
 
         // PUT api/<UsersController>/5
