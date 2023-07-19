@@ -221,60 +221,7 @@ using ProjectServer.Models;
 
         }
 
-        public List<Song> userFavoriteSongs(int idUser)
-        {
-            SqlConnection con;
-            SqlCommand cmd;
-
-            try
-            {
-                con = connect("myProjDB"); // create the connection
-            }
-            catch (Exception ex)
-            {
-                // write to log
-                throw (ex);
-            }
-
-            Dictionary<string, object> paramDic = new Dictionary<string, object>();
-            paramDic.Add("@idUser", idUser);
-
-            cmd = CreateCommandWithStoredProcedure("UserFavoritesSongs", con, paramDic);            // create the command
-
-
-            List<Song> SongList = new List<Song>();
-
-            try
-            {
-                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-                while (dataReader.Read())
-                {
-                    Song s = new Song();
-                    s.Id = Convert.ToInt32(dataReader["id"]);
-                    s.Artist = dataReader["artist"].ToString();
-                    s.SongName = dataReader["song"].ToString();
-                    s.Lyrics = dataReader["text"].ToString();
-                    SongList.Add(s);
-                }
-                return SongList;
-            }
-            catch (Exception ex)
-            {
-                // write to log
-                throw (ex);
-            }
-
-            finally
-            {
-                if (con != null)
-                {
-                    // close the db connection
-                    con.Close();
-                }
-            }
-
-        }
+        
         //------Song Services------//
         public List<Song> getAllSongs()
         {
@@ -492,9 +439,111 @@ using ProjectServer.Models;
         }
 
 
+        public List<Song> userFavoriteSongs(int idUser)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@idUser", idUser);
+
+            cmd = CreateCommandWithStoredProcedure("UserFavoritesSongs", con, paramDic);            // create the command
 
 
+            List<Song> SongList = new List<Song>();
 
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    Song s = new Song();
+                    s.Id = Convert.ToInt32(dataReader["id"]);
+                    s.Artist = dataReader["artist"].ToString();
+                    s.SongName = dataReader["song"].ToString();
+                    s.Lyrics = dataReader["text"].ToString();
+                    SongList.Add(s);
+                }
+                return SongList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+
+        public List<string> GetAllArtists()
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+
+            cmd = CreateCommandWithStoredProcedure("GetAllArtists", con, null);             // create the command
+
+
+            List<string> ArtistList = new List<string>();
+
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    string nameOfArtist= dataReader["artist"].ToString(); ;
+
+                    ArtistList.Add(nameOfArtist);
+                }
+                return ArtistList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
 
 
 

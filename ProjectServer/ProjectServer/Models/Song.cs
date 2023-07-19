@@ -43,6 +43,12 @@
             return dbs.getSongsByLyrics(lyrics);
         }
 
+        public static List<string> GetAllArtists()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetAllArtists();
+        }
+
         //public static bool addSong(int idUser, int idSong)
         //{
         //    DBservices dbs = new DBservices();

@@ -12,10 +12,19 @@ namespace ProjectServer.Controllers
 
         [HttpGet]
         [Route("GetAllSongs")]
-        public List<Song> GetByPrice()
+        public List<Song> GetAllSongs()
         {
             return Song.getAllSongs();
         }
+
+
+        [HttpGet]
+        [Route("GetAllArtists")]
+        public List<string> GetAllArtists()
+        {
+            return Song.GetAllArtists();
+        }
+
 
         [HttpGet]
         [Route("getSongsByArtist")]
