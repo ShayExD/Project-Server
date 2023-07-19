@@ -47,6 +47,25 @@ namespace ProjectServer.Controllers
             return Song.getSongsByLyrics(lyrics);
         }
 
+
+        [HttpGet]
+        [Route("getArtistCountInFavorite")]
+        public List<Artist> getArtistCountInFavorite()
+        {
+            return Song.getArtistCountInFavorite();
+        }
+
+
+
+        [HttpGet]
+        [Route("getSongsCountInFavorite")]
+        public List<Song> getSongsCountInFavorite()
+        {
+            return Song.getSongsCountInFavorite();
+        }
+
+
+
         // GET: api/<SongController>
         [HttpGet]
         public IEnumerable<string> Get()

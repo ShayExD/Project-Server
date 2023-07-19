@@ -14,12 +14,21 @@
             }
             public Song() { }
 
+        public Song(string songName, int occurrenceInFav)
+        {
+            Id = 0;
+            Artist = "";
+            SongName = songName;
+            Lyrics = "";
+            OccurrenceInFav = occurrenceInFav;
+        }
+
             public int Id { get; set; }
             public string Artist { get; set; }
             public string SongName { get; set; }
             public string Lyrics { get; set; }
-
-            public static List<Song> getAllSongs()
+            public int OccurrenceInFav { get; set; }
+        public static List<Song> getAllSongs()
             {
                 DBservices dbs = new DBservices();
                 return dbs.getAllSongs();
@@ -49,11 +58,19 @@
             return dbs.GetAllArtists();
         }
 
-        //public static bool addSong(int idUser, int idSong)
-        //{
-        //    DBservices dbs = new DBservices();
-        //    return dbs.addSong(idUser, idSong);
-        //}
+        public static List<Artist> getArtistCountInFavorite()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getArtistCountInFavorite();
+        }
+
+        public static List<Song> getSongsCountInFavorite()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getSongsCountInFavorite();
+        }
+
+
     }
     }
 
