@@ -546,8 +546,107 @@ using ProjectServer.Models;
         }
 
 
+        public List<Artist> getArtistCountInFavorite()
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
 
 
+            cmd = CreateCommandWithStoredProcedure("ArtistCountInFavorite", con, null);             // create the command
+
+
+            List<Artist> ArtistList = new List<Artist>();
+
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    Artist artist = new Artist();
+                    artist.ArtistName = dataReader["artist"].ToString();
+                    artist.OccurrenceInFav = Convert.ToInt32(dataReader["occurrenceCount"]); 
+                    ArtistList.Add(artist);
+                }
+                return ArtistList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+        public List<Song> getSongsCountInFavorite()
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+
+            cmd = CreateCommandWithStoredProcedure("SongsCountInFavorite", con, null);             // create the command
+
+
+            List<Song> SongList = new List<Song>();
+
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    Song s = new Song();
+                    s.SongName = dataReader["song"].ToString();
+                    s.OccurrenceInFav = Convert.ToInt32(dataReader["occurrenceCount"]);
+                    SongList.Add(s);
+                }
+                return SongList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
 
 
 
