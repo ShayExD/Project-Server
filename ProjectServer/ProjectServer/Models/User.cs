@@ -59,6 +59,12 @@ namespace ProjectServer.Models
             return dbs.userFavoriteSongs(idUser);
         }
 
+        public static List<User> getAllUsers()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getAllUsers();
+        }
+
 
     }
 }

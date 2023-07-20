@@ -64,6 +64,60 @@ using ProjectServer.Models;
 
         }
 
+        public List<User> getAllUsers()
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+
+            cmd = CreateCommandWithStoredProcedure("getAllUsers", con, null);             // create the command
+
+
+            List<User> UserList = new List<User>();
+
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    User user = new User();
+                    user.Id = Convert.ToInt32(dataReader["id"]);
+                    user.Username = dataReader["username"].ToString();
+                    user.Email = dataReader["email"].ToString();
+                    user.Password = dataReader["password"].ToString();
+                    user.Registrationdate = dataReader["registrationdate"].ToString();
+                    UserList.Add(user);
+                }
+                return UserList;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
         public User LogIn(string email, string password)
         {
 
@@ -146,6 +200,7 @@ using ProjectServer.Models;
             Dictionary<string, object> paramDic = new Dictionary<string, object>();
             paramDic.Add("@idUser", idUser);
             paramDic.Add("@idSong", idSong);
+
 
 
             cmd = CreateCommandWithStoredProcedure("InsertSongToFavorites", con, paramDic);             // create the command
@@ -469,9 +524,9 @@ using ProjectServer.Models;
                 while (dataReader.Read())
                 {
                     Song s = new Song();
-                    s.Id = Convert.ToInt32(dataReader["id"]);
-                    s.Artist = dataReader["artist"].ToString();
+                    s.Id = Convert.ToInt32(dataReader["idSong"]);
                     s.SongName = dataReader["song"].ToString();
+                    s.Artist = dataReader["artist"].ToString();
                     s.Lyrics = dataReader["text"].ToString();
                     SongList.Add(s);
                 }
