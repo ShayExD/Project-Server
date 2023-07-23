@@ -494,7 +494,7 @@ using ProjectServer.Models;
         }
 
 
-        public List<Song> userFavoriteSongs(int idUser)
+        public Dictionary<int, List<Song>> userFavoriteSongs(int idUser)
         {
             SqlConnection con;
             SqlCommand cmd;
@@ -516,6 +516,9 @@ using ProjectServer.Models;
 
 
             List<Song> SongList = new List<Song>();
+            Dictionary<int,List<Song>> DicUserIdAndSongs = new Dictionary<int, List<Song>>();
+
+
 
             try
             {
@@ -530,7 +533,9 @@ using ProjectServer.Models;
                     s.Lyrics = dataReader["text"].ToString();
                     SongList.Add(s);
                 }
-                return SongList;
+                DicUserIdAndSongs.Add(idUser, SongList);
+
+                return DicUserIdAndSongs;
             }
             catch (Exception ex)
             {

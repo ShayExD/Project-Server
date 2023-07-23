@@ -53,7 +53,7 @@ namespace ProjectServer.Models
 
         }
 
-        public static List<Song> userFavoriteSongs(int idUser)
+        public static Dictionary<int, List<Song>> userFavoriteSongs(int idUser)
         {
             DBservices dbs = new DBservices();
             return dbs.userFavoriteSongs(idUser);

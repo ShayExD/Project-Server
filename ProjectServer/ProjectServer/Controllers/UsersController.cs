@@ -45,7 +45,7 @@ namespace ProjectServer.Controllers
 
         [HttpGet]
         [Route("userFavoriteSongs")]
-        public List<Song> userFavoriteSongs(int idUser)
+        public Dictionary<int, List<Song>> userFavoriteSongs(int idUser)
         {
             return Models.User.userFavoriteSongs(idUser);
         }
