@@ -686,6 +686,7 @@ using ProjectServer.Models;
                 {
                     Song s = new Song();
                     s.SongName = dataReader["song"].ToString();
+                    s.Artist = dataReader["artist"].ToString();
                     s.OccurrenceInFav = Convert.ToInt32(dataReader["occurrenceCount"]);
                     SongList.Add(s);
                 }
