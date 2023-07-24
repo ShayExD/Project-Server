@@ -1,4 +1,6 @@
-﻿namespace ProjectServer.Models
+﻿using ProjectServer.Models.DAL;
+
+namespace ProjectServer.Models
 {
     public class Artist
     {
@@ -14,6 +16,17 @@
         public string ArtistName { get; set; }
         public int OccurrenceInFav { get; set; }
 
+        public static List<Artist> getArtistCountInFavorite()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.getArtistCountInFavorite();
+        }
+
+
+
+
+
 
     }
+
 }

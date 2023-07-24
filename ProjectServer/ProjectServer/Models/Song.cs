@@ -58,11 +58,11 @@
             return dbs.GetAllArtists();
         }
 
-        public static List<Artist> getArtistCountInFavorite()
-        {
-            DBservices dbs = new DBservices();
-            return dbs.getArtistCountInFavorite();
-        }
+        //public static List<Artist> getArtistCountInFavorite()
+        //{
+        //    DBservices dbs = new DBservices();
+        //    return dbs.getArtistCountInFavorite();
+        //}
 
         public static List<Song> getSongsCountInFavorite()
         {

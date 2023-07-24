@@ -48,12 +48,12 @@ namespace ProjectServer.Controllers
         }
 
 
-        [HttpGet]
-        [Route("getArtistCountInFavorite")]
-        public List<Artist> getArtistCountInFavorite()
-        {
-            return Song.getArtistCountInFavorite();
-        }
+        //[HttpGet]
+        //[Route("getArtistCountInFavorite")]
+        //public List<Artist> getArtistCountInFavorite()
+        //{
+        //    return Song.getArtistCountInFavorite();
+        //}
 
 
 
