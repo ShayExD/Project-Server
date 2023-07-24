@@ -17,7 +17,7 @@ using ProjectServer.Models;
         }
 
         //------User Services------//
-        public bool Insert(User user)
+        public User Insert(User user)
         {
 
             SqlConnection con;
@@ -41,11 +41,25 @@ using ProjectServer.Models;
 
             cmd = CreateCommandWithStoredProcedure("InsertUser", con, paramDic);             // create the command
 
+            User User = new User();
+
+
             try
             {
-                int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                /*int numEffected = Convert.ToInt32(cmd.ExecuteScalar());*/ // returning the id
-                return numEffected == 1;
+
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dataReader.Read())
+                {
+                    User.Id = Convert.ToInt32(dataReader["id"]);
+                    User.Email = dataReader["email"].ToString();
+                    User.Password = dataReader["password"].ToString();
+                    User.Username = dataReader["username"].ToString();
+                    User.Registrationdate = dataReader["registrationdate"].ToString();
+
+                }
+               
+                return User;
             }
             catch (Exception ex)
             {
@@ -61,7 +75,6 @@ using ProjectServer.Models;
                     con.Close();
                 }
             }
-
         }
 
         public List<User> getAllUsers()

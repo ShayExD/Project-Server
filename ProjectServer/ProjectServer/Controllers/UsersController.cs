@@ -11,7 +11,7 @@ namespace ProjectServer.Controllers
     {
 
         [HttpPost("SignUp")]
-        public bool SignUp([FromBody] User user)
+        public User SignUp([FromBody] User user)
         {
             return user.Registration();
         }

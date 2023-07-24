@@ -39,7 +39,7 @@ namespace ProjectServer.Models
             return dbs.deleteSongFromFavorite(idUser, idSong);
         }
 
-        public bool Registration()
+        public User Registration()
         {
             DBservices dbs = new DBservices();
             return dbs.Insert(this);
