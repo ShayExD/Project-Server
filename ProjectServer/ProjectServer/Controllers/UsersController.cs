@@ -28,11 +28,7 @@ namespace ProjectServer.Controllers
             return Models.User.addSongToFavorite(idUser, idSong);
         }
 
-        [HttpPost("deleteSongFromFavorite")]
-        public bool deleteSongFromFavorite(int idUser, int idSong)
-        {
-            return Models.User.deleteSongFromFavorite(idUser, idSong);
-        }
+       
 
         [HttpGet]
         [Route("getAllUsers")]
@@ -74,6 +70,13 @@ namespace ProjectServer.Controllers
         }
 
         // DELETE api/<UsersController>/5
+        [HttpDelete("deleteSongFromFavorite")]
+        public bool deleteSongFromFavorite(int idUser, int idSong)
+        {
+            return Models.User.deleteSongFromFavorite(idUser, idSong);
+        }
+
+
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
